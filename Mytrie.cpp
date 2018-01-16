@@ -1,4 +1,4 @@
-#include "Header.h"
+#include "Mytrie.h"
 
 
 void Mytrie::makeEmpty()
