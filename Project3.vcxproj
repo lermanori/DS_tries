@@ -110,6 +110,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Mytrie.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Mytrie.cpp" />
+    <ClCompile Include="unitest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
