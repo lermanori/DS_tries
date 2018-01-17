@@ -4,25 +4,24 @@
 void Mytrie::makeEmpty()
 {
 	root = new node;
+	root->setWord("root");
 }
 Data Mytrie::find(KeyType key)
 {
 	node* curr = root;
 	bool found = false;
 	size_t i = 0;
-	while (!found && i < key.size())
+		
+	while (curr->data[curr->asciToNum(key[i])] != nullptr&&i<key.size())
 	{
-		if (curr->data[curr->asciToNum(key[i])]->getWord()[0] == '\0')//no leaf
-			if (curr->data[curr->asciToNum(key[i])]->data != nullptr)
-			{
-				curr = curr->data[curr->asciToNum(key[i])];
-				i++;
-			}
-			else// nullptr
-				return Data(0);
-		else//is a leaf
-			return curr->data[curr->asciToNum(key[i])]->getNumOfData();
+			curr = curr->data[curr->asciToNum(key[i])];
+			i++;
+
 	}
+	if (key.compare(curr->getWord()) == 0)
+		return curr->getNumOfData();
+	else
+		return Data(0);
 
 }
 void Mytrie::Delete(KeyType key)
@@ -30,37 +29,36 @@ void Mytrie::Delete(KeyType key)
 	size_t num = find(key);
 
 	node* curr = root;
-	node* holder= nullptr;
+	node* holder = nullptr;
 
 	size_t i = 0;
-	while (i < key.size())
+	if (num == 0)
+		std::cout << "dont fuck with me";//supose to throw exeption "incorrect input of values"
+	else
 	{
+		std::stack<node*> st;
+		while (i < key.size()&&curr->data[curr->asciToNum(key[i])] != nullptr)
+		{
+			st.push(curr->data[curr->asciToNum(key[i])]);
+			curr = curr->data[curr->asciToNum(key[i])];
+			i++;
+		}
+		node* tster = st.top();
+		while (key.compare(tster->getWord()) != 0)
+		{
+			st.pop();
+			tster = st.top();
+		}
+		if (tster->getTakenSpots() != 0)
+			tster->setWord(key[key.size() - 1]);
+		else
+			while(tster->getNumOfData()==0)
+			{
+			delete tster;
+			}
 
-		if (curr->data[curr->asciToNum(key[i])] != nullptr)//continues exists
-		{
-			if (num > 1)
-			{
-				curr = curr->data[curr->asciToNum(key[i])];
-				i++;
-			}
-			if (num == 1)
-			{
-				holder = curr;
-				curr = curr->data[curr->asciToNum(key[i])];
-			    holder->data[curr->asciToNum(key[i])] = nullptr;
-				i++;
-			
-			}
-		}
-		else// nullptr->continue doesnt exists
-		{
-			//throw exeption there is no word to delete
-			std::cout << "hey there is no word like this";
-		}
 	}
-	curr->setWord("\0");//sets the key to the the last
-	curr->setNumOfData(curr->getNumOfData() - 1);
-	curr->setTakenSpots(curr->getTakenSpots() - 1);
+
 }
 void Mytrie::insert(KeyType key, Data data)
 {
@@ -68,7 +66,7 @@ void Mytrie::insert(KeyType key, Data data)
 	node* curr = root;
 	bool found = false;
 	size_t i = 0;
-	while (i < key.size()&&!found)
+	while ((i < key.size()) && found == false)
 	{
 
 		if (curr->data[curr->asciToNum(key[i])] != nullptr)//continues exists
@@ -79,32 +77,56 @@ void Mytrie::insert(KeyType key, Data data)
 		}
 		else// nullptr->continue doesnt exists
 		{
-			if (holder->getTakenSpots() != 0)
+			if (key.compare(curr->getWord()) == 0)
 			{
+				curr->setNumOfData(curr->getNumOfData() + 1);
+				found = true;
+			}
+			else if (curr->getWord()[i] == key[i])
+			{
+
 				curr->data[curr->asciToNum(curr->getWord()[i])] = new node(curr->getWord(), curr->getNumOfData());
+				curr->setWord(curr->getWord()[i - 1]);
+				curr->setNumOfData(curr->getNumOfData() - 1);
 				curr->setTakenSpots(curr->getTakenSpots() + 1);
-				curr->setNumOfData(0);
-				curr->setWord(curr->getWord()[i-1]);
+				holder = curr;
+				curr = curr->data[curr->asciToNum(key[i])];
+				i++;
 
 			}
-			curr->setTakenSpots(curr->getTakenSpots() + 1);
-			curr->data[curr->asciToNum(key[i])] = new node;
-			curr = curr->data[curr->asciToNum(key[i])];
-			i++;
-			curr->setWord(key);//sets the key to the the last
-			curr->setNumOfData(curr->getNumOfData() + 1);
+			else
+			{
+				if (curr->getNumOfData() != 0 && curr->getTakenSpots() != 0)
+				{
+					int num = 1;
+					curr->data[curr->asciToNum(key[i])] = new node(key, data);
 
-			found = true;
+					curr->data[curr->asciToNum(curr->getWord()[i])] = new node(*curr);
+					curr->setWord(curr->getWord()[i - 1]);
+					curr->setNumOfData(curr->getNumOfData() - 1);
+					curr->setTakenSpots(curr->getTakenSpots() + 2);
+				}
+				else
+				{
+					curr->setTakenSpots(curr->getTakenSpots() + 1);
+					curr->data[curr->asciToNum(key[i])] = new node(key, data);
+
+				}
+
+				found = true;
+			}
+
+
+
+
 		}
 	}
-	if(!found)
-		curr->setNumOfData(curr->getNumOfData() + 1);
 }
 bool Mytrie::isEmpty()
 {
 	return root == nullptr ? bool(true) : bool(false);
 }
-Mytrie::Mytrie():root(nullptr)
+Mytrie::Mytrie() :root(nullptr)
 {
 	makeEmpty();
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include <stack>
 typedef int Data;
 typedef std::string KeyType;
 const int alphaSize = 26;
@@ -30,6 +30,7 @@ class Mytrie
 		
 		node();
 		node(KeyType key, Data data);
+		
 	protected:
 
 
