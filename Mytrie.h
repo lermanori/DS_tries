@@ -45,6 +45,8 @@ public:
 	~Mytrie();
 	void insert(KeyType key, Data data);
 	Data find(KeyType key);
+
+
 	void Delete(KeyType key);
 
 };

@@ -20,9 +20,24 @@ void main()
 	std::cout << "alp:" << i << std::endl;
 	 i = m.find("oril");
 	std::cout << "oril:" << i << std::endl;
+	
 	m.Delete("ori");
-	m.Delete("oriX");
 	i = m.find("ori");
-	std::cout << "ori after deltet:"<< i << std::endl;
+	
+
+	i = m.find("orix");
+	std::cout << "orix bf deltet:"<< i << std::endl;
+	m.Delete("oriX");
+	std::cout << "orix after deltet:" << i << std::endl;
+	
+	i = m.find("alp");
+	std::cout << "alp bf deltet:" << i << std::endl;
+	m.Delete("ALP");
+	std::cout << "alp after deltet:" << i << std::endl;
+
+	i = m.find("alp");
+	std::cout << "alp bf 2 deltet:" << i << std::endl;
+	m.Delete("ALP");
+	std::cout << "alp after 2 deltet:" << i << std::endl;
 
 };

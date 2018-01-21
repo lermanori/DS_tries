@@ -24,6 +24,7 @@ Data Mytrie::find(KeyType key)
 		return Data(0);
 
 }
+
 void Mytrie::Delete(KeyType key)
 {
 	size_t num = find(key);
@@ -33,7 +34,18 @@ void Mytrie::Delete(KeyType key)
 
 	size_t i = 0;
 	if (num == 0)
-		std::cout << "dont fuck with me";//supose to throw exeption "incorrect input of values"
+		std::cout << "dont fuck with me"<<std::endl;//supose to throw exeption "incorrect input of values"or" the data you enterd doesnt exists
+	else if (num != 1)
+	{
+		while (curr->data[curr->asciToNum(key[i])] != nullptr&&i<key.size())
+		{
+			curr = curr->data[curr->asciToNum(key[i])];
+			i++;
+
+		}
+		if (key.compare(curr->getWord()) == 0)
+			curr->setNumOfData(curr->getNumOfData() - 1);
+	}
 	else
 	{
 		std::stack<node*> st;
@@ -50,11 +62,15 @@ void Mytrie::Delete(KeyType key)
 			tster = st.top();
 		}
 		if (tster->getTakenSpots() != 0)
+		{
 			tster->setWord(key[key.size() - 1]);
+			tster->setNumOfData(tster->getNumOfData() - 1);
+
+		}
 		else
 			while(tster->getNumOfData()==0)
 			{
-			delete tster;
+			delete tster;//what i understand that this is not getting in in the orix delete test and its not deleting and there is no taking care of the marking of the relesed pointer
 			}
 
 	}
