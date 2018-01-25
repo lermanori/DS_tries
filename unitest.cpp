@@ -3,7 +3,7 @@
 
 
 typedef std::pair<KeyType, int > pair;
-//ori lerman is a bitch.
+
 int main()
 {
 	std::vector<pair> vec;
@@ -13,8 +13,7 @@ int main()
 	bool word = false;
 	char ch = '/';
 
-	//ch = getchar();
-
+	//level 1
 	ch = getchar();
 	while (ch != '.')
 	{
@@ -30,7 +29,7 @@ int main()
 			break;
 		else
 		{
-			while (ch != ' ' && ch != '.'&&ch!='\n')
+			while (ch != ' ' && ch != '.'&&ch!='\n')//creates word char by char
 			{
 
 				temp.first.push_back(ch);
