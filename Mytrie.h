@@ -1,7 +1,9 @@
-#pragma once
 
 #include <string>
 #include <stack>
+#include <vector>
+#include <iostream>
+
 typedef int Data;
 typedef std::string KeyType;
 const int alphaSize = 26;
@@ -27,26 +29,33 @@ class Mytrie
 		void setNumOfData(int newNumOfData);
 		void setWord(KeyType key);
 		void setWord(char key);
-		
+
 		node();
+		~node();
 		node(KeyType key, Data data);
 		
-	protected:
-
-
 	};
 
+
+	void destructorRec(node* curr);
 	node* root;
+	KeyType& find_key(KeyType key);
+
 
 public:
+
 	void makeEmpty();
 	bool isEmpty();
+	void insert(KeyType key, Data data);
+	
+
+	Data find(KeyType key);
+	void Delete(KeyType key);
+	KeyType approxFind(KeyType key);
+
+
 	Mytrie();
 	~Mytrie();
-	void insert(KeyType key, Data data);
-	Data find(KeyType key);
 
-
-	void Delete(KeyType key);
 
 };
